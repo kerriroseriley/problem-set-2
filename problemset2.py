@@ -177,45 +177,57 @@ plt.show()
 plt.close()
 
 # Presidential Year
+# Recode presidential year variable for plotting
+df["presyear_label"] = df["presyear"].map({
+    0: "Non-Presidential Year",
+    1: "Presidential Year"
+})
+
 plt.figure(figsize=(6,4))
 
-pres_means = df.groupby("presyear")["turnout_pct"].mean().reset_index()
+pres_means = df.groupby("presyear_label")["turnout_pct"].mean().reset_index()
 
 sns.barplot(
-    x="presyear",
+    x="presyear_label",
     y="turnout_pct",
-    hue="presyear",
     data=pres_means,
-    palette=["steelblue", "darkorange"],
-    legend=False
+    order=["Non-Presidential Year", "Presidential Year"],
+    palette=["steelblue", "darkorange"]
 )
 
 plt.title("Average Turnout: Presidential vs Non-Presidential Years")
 plt.ylabel("Mean Turnout (%)")
+plt.xlabel("")
 
 plt.tight_layout()
 plt.savefig("outputs/turnout_by_presyear_bar.png", dpi=300)
 plt.show()
 plt.close()
-  
+   
 # Law Change
+# Recode law change variable for plotting
+df["lawchange_label"] = df["lawchange"].map({
+    0: "Otherwise",
+    1: "First Year After Law Change"
+})
+
 plt.figure(figsize=(6,4))
 
-law_means = df.groupby("lawchange")["turnout_pct"].mean().reset_index()
+law_means = df.groupby("lawchange_label")["turnout_pct"].mean().reset_index()
 
 sns.barplot(
-    x="lawchange",
+    x="lawchange_label",
     y="turnout_pct",
-    hue="lawchange",
     data=law_means,
-    palette=["steelblue", "darkorange"],
-    legend=False
+    order=["Otherwise", "First Year After Law Change"],
+    palette=["steelblue", "darkorange"]
 )
 
 plt.title("Average Turnout Around Law Changes")
 plt.ylabel("Mean Turnout (%)")
+plt.xlabel("")
 
-plt.tight_layout() 
+plt.tight_layout()
 plt.savefig("outputs/turnout_by_lawchange_bar.png", dpi=300)
 plt.show()
 plt.close()
