@@ -7,6 +7,7 @@ Program Evaluation
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from scipy import stats
 
 sns.set(style="whitegrid")
 
@@ -158,3 +159,22 @@ plt.tight_layout()
 plt.savefig("outputs/state_turnout.png", dpi=300)
 plt.show()
 plt.close()
+
+# Convert turnout to percent (optional but fine for interpretation)
+df["turnout_pct"] = df["turnout"] * 100
+
+# Exclude registration == 5
+df_clean = df[df["registration"] != 5].copy()
+
+before = df_clean[df_clean["lawchange"] == 0]["turnout_pct"]
+after  = df_clean[df_clean["lawchange"] == 1]["turnout_pct"]
+
+# Two-sample t-test (Welch's t-test by default unequal variances)
+t_stat, p_value = stats.ttest_ind(after, before, equal_var=False)
+
+print("\nT-test results (Law Change Effect)")
+print("-----------------------------------")
+print(f"Mean before: {before.mean():.2f}%")
+print(f"Mean after : {after.mean():.2f}%")
+print(f"T-statistic: {t_stat:.4f}")
+print(f"P-value    : {p_value:.6f}")
