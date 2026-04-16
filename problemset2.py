@@ -12,19 +12,17 @@ from scipy import stats
 sns.set(style="whitegrid")
 
 
-# Load data
+# Load data 
 
 df = pd.read_csv("turnout.csv")
 
-print(df.shape)
-print(df.info())
-df.head()
 
 # Convert turnout to percent 
 df["turnout_pct"] = df["turnout"] * 100
 
 # Handle missing data 
 missing = df.isnull().mean().sort_values(ascending=False)
+
 
 plt.figure(figsize=(8,4))
 missing[missing > 0].plot(kind='bar')
@@ -42,7 +40,6 @@ key_vars = [
     "per_AfricanAmerican", "per_urban", "median_age", "log_inc"
 ]
 
-print(df[key_vars].describe().T)
 
 # Distributions
 fig, axes = plt.subplots(2, 2, figsize=(12, 8))
