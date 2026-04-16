@@ -55,6 +55,51 @@ def codebook(df):
 # Call the function
 codebook(df)
 
+# Descriptive Statistics
+
+
+vars_table1 = [
+    "turnout_pct",
+    "log_pop",
+    "log_inc",
+    "per_HSeducation",
+    "per_AfricanAmerican",
+    "per_urban"
+]
+
+# Create table
+table1 = df[vars_table1].describe().T
+
+# Keep only relevant columns
+table1 = table1[["count", "mean", "std", "min", "max"]]
+
+# Rename columns
+table1 = table1.rename(columns={
+    "count": "N",
+    "mean": "Mean",
+    "std": "Std Dev",
+    "min": "Min",
+    "max": "Max"
+})
+
+# Rename rows for readability
+table1.index = [
+    "Turnout (%)",
+    "Log Population",
+    "Log Income",
+    "HS Education (%)",
+    "African American (%)",
+    "Urban (%)"
+]
+
+# Round values
+table1 = table1.round(2)
+
+print("\nTable 1: Descriptive Statistics")
+print(table1)
+
+
+# Plotting
 
 plt.figure(figsize=(8,4))
 missing[missing > 0].plot(kind='bar')
