@@ -126,19 +126,19 @@ key_vars = [
 fig, axes = plt.subplots(2, 2, figsize=(12, 8))
 
 # Turnout Distribution
-sns.histplot(df["turnout_pct"], kde=True, ax=axes[0,0])
+sns.histplot(df["turnout_pct"], kde=True, ax=axes[0,0], color="steelblue")
 axes[0,0].set_title("Turnout Distribution (%)")
 
 # Population Distribution
-sns.histplot(df["population"], kde=True, ax=axes[0,1])
+sns.histplot(df["population"], kde=True, ax=axes[0,1], color="steelblue")
 axes[0,1].set_title("Population (Skewed)")
 
 # Income Distribution
-sns.histplot(df["medfaminc"], kde=True, ax=axes[1,0])
+sns.histplot(df["medfaminc"], kde=True, ax=axes[1,0], color="steelblue")
 axes[1,0].set_title("Median Family Income")
 
 # Education distribution
-sns.histplot(df["per_HSeducation"], kde=True, ax=axes[1,1])
+sns.histplot(df["per_HSeducation"], kde=True, ax=axes[1,1], color="steelblue")
 axes[1,1].set_title("HS Education Share")
 
 plt.tight_layout()
@@ -191,7 +191,7 @@ plt.tight_layout()
 plt.savefig("outputs/turnout_by_presyear_bar.png", dpi=300)
 plt.show()
 plt.close()
- 
+  
 # Law Change
 plt.figure(figsize=(6,4))
 
@@ -218,7 +218,7 @@ plt.close()
 # Income vs Education
 plt.figure(figsize=(6,4))
  
-sns.scatterplot(x="log_inc", y="per_HSeducation", data=df, alpha=0.4)
+sns.scatterplot(x="log_inc", y="per_HSeducation", data=df, alpha=0.4, color="steelblue")
 
 plt.title("Income vs Education")
 plt.tight_layout()
@@ -233,7 +233,7 @@ plt.figure(figsize=(6,4))
 
 state_means = df.groupby("state")["turnout_pct"].mean().reset_index()
 
-sns.barplot(x="state", y="turnout_pct", data=state_means)
+sns.barplot(x="state", y="turnout_pct", data=state_means, color="steelblue")
 
 plt.title("Average Turnout by State")
 plt.ylabel("Mean Turnout (%)")
