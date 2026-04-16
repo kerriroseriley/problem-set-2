@@ -10,7 +10,7 @@ import seaborn as sns
 from scipy import stats
 
 # Set default plot style for visuals
-sns.set(style="whitegrid")
+sns.set(style="whitegrid", palette="Set2")
 
 
 # Load data and read turnout.csv file
@@ -152,7 +152,14 @@ plt.figure(figsize=(6,4))
 
 reg_means = df.groupby("registration")["turnout_pct"].mean().reset_index()
 
-sns.barplot(x="registration", y="turnout_pct", data=reg_means)
+sns.barplot(
+    x="registration",
+    y="turnout_pct",
+    hue="registration",
+    data=reg_means,
+    palette=["steelblue", "darkorange"],
+    legend=False
+)
 
 plt.title("Average Turnout by Registration Regime")
 plt.ylabel("Mean Turnout (%)")
@@ -168,7 +175,14 @@ plt.figure(figsize=(6,4))
 
 pres_means = df.groupby("presyear")["turnout_pct"].mean().reset_index()
 
-sns.barplot(x="presyear", y="turnout_pct", data=pres_means)
+sns.barplot(
+    x="presyear",
+    y="turnout_pct",
+    hue="presyear",
+    data=pres_means,
+    palette=["steelblue", "darkorange"],
+    legend=False
+)
 
 plt.title("Average Turnout: Presidential vs Non-Presidential Years")
 plt.ylabel("Mean Turnout (%)")
@@ -183,7 +197,14 @@ plt.figure(figsize=(6,4))
 
 law_means = df.groupby("lawchange")["turnout_pct"].mean().reset_index()
 
-sns.barplot(x="lawchange", y="turnout_pct", data=law_means)
+sns.barplot(
+    x="lawchange",
+    y="turnout_pct",
+    hue="lawchange",
+    data=law_means,
+    palette=["steelblue", "darkorange"],
+    legend=False
+)
 
 plt.title("Average Turnout Around Law Changes")
 plt.ylabel("Mean Turnout (%)")
@@ -205,7 +226,8 @@ plt.tight_layout()
 plt.savefig("outputs/income_vs_education.png", dpi=300)
 plt.show()
 plt.close()
- £
+
+
 # State-level turnout
 plt.figure(figsize=(6,4))
 
