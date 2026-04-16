@@ -195,7 +195,7 @@ plt.tight_layout()
 plt.savefig("outputs/income_vs_education.png", dpi=300)
 plt.show()
 plt.close()
-
+ 
 # State-level turnout
 plt.figure(figsize=(6,4))
 
@@ -223,8 +223,7 @@ after  = df_clean[df_clean["lawchange"] == 1]["turnout_pct"]
 # Two-sample t-test (Welch's t-test by default unequal variances)
 t_stat, p_value = stats.ttest_ind(after, before, equal_var=False)
 
-print("\nT-test results (Law Change Effect)")
-print("-----------------------------------")
+print("\nT-test results (Law Change Effect)\n")
 print(f"Mean before: {before.mean():.2f}%")
 print(f"Mean after : {after.mean():.2f}%")
 print(f"T-statistic: {t_stat:.3f}")
