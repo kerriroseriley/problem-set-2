@@ -199,7 +199,7 @@ plt.close()
 
 # Income vs Education
 plt.figure(figsize=(6,4))
-
+ 
 sns.scatterplot(x="log_inc", y="per_HSeducation", data=df, alpha=0.4)
 
 plt.title("Income vs Education")
@@ -236,9 +236,9 @@ after  = df_clean[df_clean["lawchange"] == 1]["turnout_pct"]
 # Two-sample t-test (Welch's t-test by default unequal variances)
 t_stat, p_value = stats.ttest_ind(after, before, equal_var=False)
 
-print("\n£T-test results (Law Change Effect)")
+print("\nT-test results (Law Change Effect)")
 print("-----------------------------------")
 print(f"Mean before: {before.mean():.2f}%")
 print(f"Mean after : {after.mean():.2f}%")
-print(f"T-statistic: {t_stat:.4f}")
-print(f"P-value    : {p_value:.6f}")
+print(f"T-statistic: {t_stat:.3f}")
+print(f"P-value    : {p_value:.3f}")
