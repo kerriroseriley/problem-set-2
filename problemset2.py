@@ -142,7 +142,7 @@ plt.figure(figsize=(6,4))
 
 reg_means = df.groupby("registration")["turnout_pct"].mean().reset_index()
 
-sns.barplot(x="registration", y="turnout_pct", data=reg_means, palette="viridis")
+sns.barplot(x="registration", y="turnout_pct", data=reg_means)
 
 plt.title("Average Turnout by Registration Regime")
 plt.ylabel("Mean Turnout (%)")
@@ -158,7 +158,7 @@ plt.figure(figsize=(6,4))
 
 pres_means = df.groupby("presyear")["turnout_pct"].mean().reset_index()
 
-sns.barplot(x="presyear", y="turnout_pct", data=pres_means, palette="Set2")
+sns.barplot(x="presyear", y="turnout_pct", data=pres_means)
 
 plt.title("Average Turnout: Presidential vs Non-Presidential Years")
 plt.ylabel("Mean Turnout (%)")
@@ -173,7 +173,7 @@ plt.figure(figsize=(6,4))
 
 law_means = df.groupby("lawchange")["turnout_pct"].mean().reset_index()
 
-sns.barplot(x="lawchange", y="turnout_pct", data=law_means, palette="Set1")
+sns.barplot(x="lawchange", y="turnout_pct", data=law_means)
 
 plt.title("Average Turnout Around Law Changes")
 plt.ylabel("Mean Turnout (%)")
@@ -182,7 +182,7 @@ plt.tight_layout()
 plt.savefig("outputs/turnout_by_lawchange_bar.png", dpi=300)
 plt.show()
 plt.close()
-
+ 
 # Correlation matric
 plt.figure(figsize=(10,6))
 
