@@ -167,7 +167,7 @@ sns.barplot(
     palette=["steelblue", "darkorange", "seagreen"]
 )
 
-plt.title("Average Turnout by Registration Regime")
+plt.title("Average Turnout by Registration Status")
 plt.ylabel("Mean Turnout (%)")
 plt.xlabel("Registration Type")
 
