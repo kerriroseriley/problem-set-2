@@ -233,7 +233,7 @@ plt.figure(figsize=(6,4))
 
 state_means = df.groupby("state")["turnout_pct"].mean().reset_index()
 
-sns.barplot(x="state", y="turnout_pct", data=state_means, color="steelblue")
+sns.barplot(x="state", y="turnout_pct", data=state_means, palette=["steelblue", "darkorange"])
 
 plt.title("Average Turnout by State")
 plt.ylabel("Mean Turnout (%)")
