@@ -3,22 +3,16 @@ Kerri Riley
 Program Evaluation 
 """
 
-import os
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 sns.set(style="whitegrid")
 
-# ----------------------------
-# Create output folder
-# ----------------------------
-OUTPUT_DIR = "outputs"
-os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# ----------------------------
 # Load data
-# ----------------------------
+
 df = pd.read_csv("turnout.csv")
 
 print(df.shape)
@@ -41,7 +35,7 @@ plt.title("Share of Missing Values by Variable")
 plt.ylabel("Proportion Missing")
 plt.tight_layout()
 
-plt.savefig(f"{OUTPUT_DIR}/missing_values.png", dpi=300)
+plt.savefig("outputs/missing_values.png", dpi=300)
 plt.show()
 plt.close()
 
@@ -74,13 +68,11 @@ axes[1,1].set_title("HS Education Share")
 
 plt.tight_layout()
 
-plt.savefig(f"{OUTPUT_DIR}/distributions.png", dpi=300)
+plt.savefig("outputs/distributions.png", dpi=300)
 plt.show()
 plt.close()
 
-# ----------------------------
-# Registration (BAR)
-# ----------------------------
+# REgistration
 plt.figure(figsize=(6,4))
 
 reg_means = df.groupby("registration")["turnout_pct"].mean().reset_index()
@@ -92,13 +84,11 @@ plt.ylabel("Mean Turnout (%)")
 plt.xlabel("Registration Code")
 
 plt.tight_layout()
-plt.savefig(f"{OUTPUT_DIR}/turnout_by_registration_bar.png", dpi=300)
+plt.savefig("outputs/turnout_by_registration_bar.png", dpi=300)
 plt.show()
 plt.close()
 
-# ----------------------------
-# Presidential year (BAR)
-# ----------------------------
+# Presidential Year
 plt.figure(figsize=(6,4))
 
 pres_means = df.groupby("presyear")["turnout_pct"].mean().reset_index()
@@ -109,13 +99,11 @@ plt.title("Average Turnout: Presidential vs Non-Presidential Years")
 plt.ylabel("Mean Turnout (%)")
 
 plt.tight_layout()
-plt.savefig(f"{OUTPUT_DIR}/turnout_by_presyear_bar.png", dpi=300)
+plt.savefig("outputs/turnout_by_presyear_bar.png", dpi=300)
 plt.show()
 plt.close()
 
-# ----------------------------
-# Law change (BAR)
-# ----------------------------
+# Law Change
 plt.figure(figsize=(6,4))
 
 law_means = df.groupby("lawchange")["turnout_pct"].mean().reset_index()
@@ -125,14 +113,12 @@ sns.barplot(x="lawchange", y="turnout_pct", data=law_means, palette="Set1")
 plt.title("Average Turnout Around Law Changes")
 plt.ylabel("Mean Turnout (%)")
 
-plt.tight_layout()
-plt.savefig(f"{OUTPUT_DIR}/turnout_by_lawchange_bar.png", dpi=300)
+plt.tight_layout() 
+plt.savefig("outputs/turnout_by_lawchange_bar.png", dpi=300)
 plt.show()
 plt.close()
 
-# ----------------------------
-# Correlation matrix
-# ----------------------------
+# Correlation matric
 plt.figure(figsize=(10,6))
 
 corr = df[key_vars].corr()
@@ -142,13 +128,11 @@ sns.heatmap(corr, annot=True, cmap="coolwarm", fmt=".2f")
 plt.title("Correlation Matrix (Key Variables)")
 plt.tight_layout()
 
-plt.savefig(f"{OUTPUT_DIR}/correlation_matrix.png", dpi=300)
+plt.savefig("outputs/correlation_matrix.png", dpi=300)
 plt.show()
 plt.close()
 
-# ----------------------------
-# Income vs education
-# ----------------------------
+# Income vs Education
 plt.figure(figsize=(6,4))
 
 sns.scatterplot(x="log_inc", y="per_HSeducation", data=df, alpha=0.4)
@@ -156,13 +140,11 @@ sns.scatterplot(x="log_inc", y="per_HSeducation", data=df, alpha=0.4)
 plt.title("Income vs Education")
 plt.tight_layout()
 
-plt.savefig(f"{OUTPUT_DIR}/income_vs_education.png", dpi=300)
+plt.savefig("outputs/income_vs_education.png", dpi=300)
 plt.show()
 plt.close()
 
-# ----------------------------
-# State-level turnout (BAR, percent)
-# ----------------------------
+# State-level turnout
 plt.figure(figsize=(6,4))
 
 state_means = df.groupby("state")["turnout_pct"].mean().reset_index()
@@ -173,6 +155,6 @@ plt.title("Average Turnout by State")
 plt.ylabel("Mean Turnout (%)")
 
 plt.tight_layout()
-plt.savefig(f"{OUTPUT_DIR}/state_turnout.png", dpi=300)
+plt.savefig("outputs/state_turnout.png", dpi=300)
 plt.show()
 plt.close()
