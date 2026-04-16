@@ -12,7 +12,7 @@ from scipy import stats
 sns.set(style="whitegrid")
 
 
-# Load data 
+# Load data
 
 df = pd.read_csv("turnout.csv")
 
@@ -22,6 +22,38 @@ df["turnout_pct"] = df["turnout"] * 100
 
 # Handle missing data 
 missing = df.isnull().mean().sort_values(ascending=False)
+
+
+
+def codebook(df):
+    print("\n" + "="*80)
+    print("CODEBOOK SUMMARY")
+    print("="*80)
+
+    for col in df.columns:
+        print("\n")
+        print(f"Variable: {col}")
+        print("\n")
+
+        # Basic info
+        print(f"Type: {df[col].dtype}")
+        print(f"Observations: {len(df)}")
+        print(f"Missing: {df[col].isna().sum()} ({df[col].isna().mean():.2%})")
+        print(f"Unique values: {df[col].nunique()}")
+
+        # Numeric variables
+        if pd.api.types.is_numeric_dtype(df[col]):
+            print("\nSummary statistics:")
+            desc = df[col].describe(percentiles=[.1, .25, .5, .75, .9])
+            print(desc)
+
+        # Categorical variables
+        else:
+            print("\nTop categories:")
+            print(df[col].value_counts().head(10))
+
+
+codebook(df)
 
 
 plt.figure(figsize=(8,4))
