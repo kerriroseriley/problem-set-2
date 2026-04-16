@@ -232,7 +232,7 @@ plt.savefig("outputs/turnout_by_lawchange_bar.png", dpi=300)
 plt.show()
 plt.close()
  
-
+ 
 # Income vs Education
 plt.figure(figsize=(6,4))
  
