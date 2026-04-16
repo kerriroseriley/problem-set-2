@@ -3,59 +3,63 @@ Kerri Riley
 Program Evaluation 
 """
 
- 
+# Import needed modules
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy import stats
 
+# Set default plot style for visuals
 sns.set(style="whitegrid")
 
 
-# Load data
-
+# Load data and read turnout.csv file
 df = pd.read_csv("turnout.csv")
 
 
-# Convert turnout to percent 
+# Convert turnout to percent  (From proportion to percent)
 df["turnout_pct"] = df["turnout"] * 100
 
-# Handle missing data 
+# Calculates proportion of missing values for each variable
 missing = df.isnull().mean().sort_values(ascending=False)
 
 
-
+# Codebook function 
 def codebook(df):
-    print("/nCOodebook Summary/n")
-
+    # printing the title
+    print("/nCodebook Summary/n")
+    
+    # Loop through every column in dataset
     for col in df.columns:
         print("\n")
         print(f"Variable: {col}")
         print("\n")
 
         # Basic info
-        print(f"Type: {df[col].dtype}")
-        print(f"Observations: {len(df)}")
+        print(f"Type: {df[col].dtype}") # data type
+        print(f"Observations: {len(df)}") # total number of rows
         print(f"Missing: {df[col].isna().sum()} ({df[col].isna().mean():.2%})")
-        print(f"Unique values: {df[col].nunique()}")
+        print(f"Unique values: {df[col].nunique()}") # number of distinct values
 
-        # Numeric variables
+        # Numeric variables summary
         if pd.api.types.is_numeric_dtype(df[col]):
             print("\nSummary statistics:")
+            # percentiles included for distribution shape
             desc = df[col].describe(percentiles=[.1, .25, .5, .75, .9])
             print(desc)
 
-        # Categorical variables
+        # Categorical variables summary
         else:
             print("\nTop categories:")
+            # ferquency table (top 10 most common values)
             print(df[col].value_counts().head(10))
 
-# Call the function to see details of codebook
-# codebook(df)
+# Call the function to see details of codebook - saved as a comment to avoid long output
+# codebook(df) 
 
 # Descriptive Statistics
 
-
+# Selects key variables for my main summary table
 vars_table1 = [
     "turnout_pct",
     "log_pop",
@@ -65,13 +69,13 @@ vars_table1 = [
     "per_urban"
 ]
 
-# Create table
+# Create summary statistics (count, mean, std, min, max,...)
 table1 = df[vars_table1].describe().T
 
-# Keep only relevant columns
+# Keep only relevant columns for reporting
 table1 = table1[["count", "mean", "std", "min", "max"]]
 
-# Rename columns
+# Rename columns for clarity in report
 table1 = table1.rename(columns={
     "count": "N",
     "mean": "Mean",
@@ -93,11 +97,13 @@ table1.index = [
 # Round values
 table1 = table1.round(2)
 
+# Printing the final table
 print("\nTable 1: Descriptive Statistics")
 print(table1)
 
 
 # Plotting
+
 
 plt.figure(figsize=(8,4))
 missing[missing > 0].plot(kind='bar')
@@ -105,7 +111,7 @@ plt.title("Share of Missing Values by Variable")
 plt.ylabel("Proportion Missing")
 plt.tight_layout()
 
-plt.savefig("outputs/missing_values.png", dpi=300)
+plt.savefig("outputs/missing.png", dpi=300)
 plt.show()
 plt.close()
 
@@ -116,18 +122,22 @@ key_vars = [
 ]
 
 
-# Distributions
+# Distribution Plots
 fig, axes = plt.subplots(2, 2, figsize=(12, 8))
 
+# Turnout Distribution
 sns.histplot(df["turnout_pct"], kde=True, ax=axes[0,0])
 axes[0,0].set_title("Turnout Distribution (%)")
 
+# Population Distribution
 sns.histplot(df["population"], kde=True, ax=axes[0,1])
 axes[0,1].set_title("Population (Skewed)")
 
+# Income Distribution
 sns.histplot(df["medfaminc"], kde=True, ax=axes[1,0])
 axes[1,0].set_title("Median Family Income")
 
+# Education distribution
 sns.histplot(df["per_HSeducation"], kde=True, ax=axes[1,1])
 axes[1,1].set_title("HS Education Share")
 
@@ -195,7 +205,7 @@ plt.tight_layout()
 plt.savefig("outputs/income_vs_education.png", dpi=300)
 plt.show()
 plt.close()
- 
+ £
 # State-level turnout
 plt.figure(figsize=(6,4))
 
