@@ -3,7 +3,7 @@ Kerri Riley
 Program Evaluation 
 """
 
-
+ 
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -26,9 +26,9 @@ missing = df.isnull().mean().sort_values(ascending=False)
 
 
 def codebook(df):
-    print("\n" + "="*80)
+    print("\n")
     print("CODEBOOK SUMMARY")
-    print("="*80)
+    print("")
 
     for col in df.columns:
         print("\n")
