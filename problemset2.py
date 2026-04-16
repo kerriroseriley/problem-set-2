@@ -167,7 +167,7 @@ plt.tight_layout()
 plt.savefig("outputs/turnout_by_presyear_bar.png", dpi=300)
 plt.show()
 plt.close()
-
+ 
 # Law Change
 plt.figure(figsize=(6,4))
 
@@ -183,19 +183,6 @@ plt.savefig("outputs/turnout_by_lawchange_bar.png", dpi=300)
 plt.show()
 plt.close()
  
-# Correlation matric
-plt.figure(figsize=(10,6))
-
-corr = df[key_vars].corr()
-
-sns.heatmap(corr, annot=True, cmap="coolwarm", fmt=".2f")
-
-plt.title("Correlation Matrix (Key Variables)")
-plt.tight_layout()
-
-plt.savefig("outputs/correlation_matrix.png", dpi=300)
-plt.show()
-plt.close()
 
 # Income vs Education
 plt.figure(figsize=(6,4))
