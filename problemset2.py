@@ -52,7 +52,7 @@ def codebook(df):
             print("\nTop categories:")
             print(df[col].value_counts().head(10))
 
-
+# Call the function
 codebook(df)
 
 
