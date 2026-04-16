@@ -146,24 +146,30 @@ plt.tight_layout()
 plt.savefig("outputs/distributions.png", dpi=300)
 plt.show()
 plt.close()
-
+ 
 # Registration
+# Recode registration variable for plotting
+df["registration_label"] = df["registration"].map({
+    0: "None",
+    1: "Full",
+    5: "Partial"
+})
+
 plt.figure(figsize=(6,4))
 
-reg_means = df.groupby("registration")["turnout_pct"].mean().reset_index()
+reg_means = df.groupby("registration_label")["turnout_pct"].mean().reset_index()
 
 sns.barplot(
-    x="registration",
+    x="registration_label",
     y="turnout_pct",
-    hue="registration",
     data=reg_means,
-    palette=["steelblue", "darkorange"],
-    legend=False
+    order=["None", "Partial", "Full"],  # optional: control order
+    palette=["steelblue", "darkorange", "seagreen"]
 )
 
 plt.title("Average Turnout by Registration Regime")
 plt.ylabel("Mean Turnout (%)")
-plt.xlabel("Registration Code")
+plt.xlabel("Registration Type")
 
 plt.tight_layout()
 plt.savefig("outputs/turnout_by_registration_bar.png", dpi=300)
@@ -243,7 +249,7 @@ plt.savefig("outputs/state_turnout.png", dpi=300)
 plt.show()
 plt.close()
 
-# Convert turnout to percent (optional but fine for interpretation)
+# Convert turnout to percent 
 df["turnout_pct"] = df["turnout"] * 100
 
 # Exclude registration == 5
