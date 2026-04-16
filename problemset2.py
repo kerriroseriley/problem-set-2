@@ -20,14 +20,10 @@ print(df.shape)
 print(df.info())
 df.head()
 
-# ----------------------------
-# Convert turnout to percent
-# ----------------------------
+# Convert turnout to percent 
 df["turnout_pct"] = df["turnout"] * 100
 
-# ----------------------------
-# Missing data
-# ----------------------------
+# Handle missing data 
 missing = df.isnull().mean().sort_values(ascending=False)
 
 plt.figure(figsize=(8,4))
@@ -40,9 +36,7 @@ plt.savefig("outputs/missing_values.png", dpi=300)
 plt.show()
 plt.close()
 
-# ----------------------------
 # Key variables
-# ----------------------------
 key_vars = [
     "turnout_pct", "population", "medfaminc", "per_HSeducation",
     "per_AfricanAmerican", "per_urban", "median_age", "log_inc"
@@ -50,9 +44,7 @@ key_vars = [
 
 print(df[key_vars].describe().T)
 
-# ----------------------------
 # Distributions
-# ----------------------------
 fig, axes = plt.subplots(2, 2, figsize=(12, 8))
 
 sns.histplot(df["turnout_pct"], kde=True, ax=axes[0,0])
@@ -73,7 +65,7 @@ plt.savefig("outputs/distributions.png", dpi=300)
 plt.show()
 plt.close()
 
-# REgistration
+# Registration
 plt.figure(figsize=(6,4))
 
 reg_means = df.groupby("registration")["turnout_pct"].mean().reset_index()
@@ -172,7 +164,7 @@ after  = df_clean[df_clean["lawchange"] == 1]["turnout_pct"]
 # Two-sample t-test (Welch's t-test by default unequal variances)
 t_stat, p_value = stats.ttest_ind(after, before, equal_var=False)
 
-print("\nT-test results (Law Change Effect)")
+print("\n£T-test results (Law Change Effect)")
 print("-----------------------------------")
 print(f"Mean before: {before.mean():.2f}%")
 print(f"Mean after : {after.mean():.2f}%")
