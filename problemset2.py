@@ -26,9 +26,7 @@ missing = df.isnull().mean().sort_values(ascending=False)
 
 
 def codebook(df):
-    print("\n")
-    print("CODEBOOK SUMMARY")
-    print("")
+    print("/nCOodebook Summary/n")
 
     for col in df.columns:
         print("\n")
@@ -52,8 +50,8 @@ def codebook(df):
             print("\nTop categories:")
             print(df[col].value_counts().head(10))
 
-# Call the function
-codebook(df)
+# Call the function to see details of codebook
+# codebook(df)
 
 # Descriptive Statistics
 
