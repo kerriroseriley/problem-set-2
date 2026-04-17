@@ -26,40 +26,30 @@ missing = df.isnull().mean().sort_values(ascending=False)
 
 # Codebook function 
 def codebook(df):
-    # printing the title
     print("/nCodebook Summary/n")
     
-    # Loop through every column in dataset
     for col in df.columns:
         print("\n")
         print(f"Variable: {col}")
         print("\n")
 
-        # Basic info
-        print(f"Type: {df[col].dtype}") # data type
-        print(f"Observations: {len(df)}") # total number of rows
+        print(f"Type: {df[col].dtype}")
+        print(f"Observations: {len(df)}")
         print(f"Missing: {df[col].isna().sum()} ({df[col].isna().mean():.2%})")
-        print(f"Unique values: {df[col].nunique()}") # number of distinct values
+        print(f"Unique values: {df[col].nunique()}")
 
-        # Numeric variables summary
         if pd.api.types.is_numeric_dtype(df[col]):
             print("\nSummary statistics:")
-            # percentiles included for distribution shape
             desc = df[col].describe(percentiles=[.1, .25, .5, .75, .9])
             print(desc)
-
-        # Categorical variables summary
         else:
             print("\nTop categories:")
-            # ferquency table (top 10 most common values)
             print(df[col].value_counts().head(10))
 
-# Call the function to see details of codebook - saved as a comment to avoid long output
 # codebook(df) 
 
-# Descriptive Statistics
 
-# Selects key variables for my main summary table
+# Descriptive Statistics
 vars_table1 = [
     "turnout_pct",
     "log_pop",
@@ -69,13 +59,9 @@ vars_table1 = [
     "per_urban"
 ]
 
-# Create summary statistics (count, mean, std, min, max,...)
 table1 = df[vars_table1].describe().T
-
-# Keep only relevant columns for reporting
 table1 = table1[["count", "mean", "std", "min", "max"]]
 
-# Rename columns for clarity in report
 table1 = table1.rename(columns={
     "count": "N",
     "mean": "Mean",
@@ -84,7 +70,6 @@ table1 = table1.rename(columns={
     "max": "Max"
 })
 
-# Rename rows for readability
 table1.index = [
     "Turnout (%)",
     "Log Population",
@@ -93,11 +78,9 @@ table1.index = [
     "African American (%)",
     "Urban (%)"
 ]
-
-# Round values
+ 
 table1 = table1.round(2)
 
-# Printing the final table
 print("\nTable 1: Descriptive Statistics")
 print(table1)
 
@@ -105,50 +88,28 @@ print(table1)
 # Plotting
 
 
-plt.figure(figsize=(8,4))
-missing[missing > 0].plot(kind='bar')
-plt.title("Share of Missing Values by Variable")
-plt.ylabel("Proportion Missing")
-plt.tight_layout()
-
-plt.savefig("outputs/missing.png", dpi=300)
-plt.show()
-plt.close()
-
-# Key variables
-key_vars = [
-    "turnout_pct", "population", "medfaminc", "per_HSeducation",
-    "per_AfricanAmerican", "per_urban", "median_age", "log_inc"
-]
-
-
 # Distribution Plots
 fig, axes = plt.subplots(2, 2, figsize=(12, 8))
 
-# Turnout Distribution
 sns.histplot(df["turnout_pct"], kde=True, ax=axes[0,0], color="steelblue")
 axes[0,0].set_title("Turnout Distribution (%)")
 
-# Population Distribution
 sns.histplot(df["population"], kde=True, ax=axes[0,1], color="steelblue")
-axes[0,1].set_title("Population (Skewed)")
+axes[0,1].set_title("Population")
 
-# Income Distribution
 sns.histplot(df["medfaminc"], kde=True, ax=axes[1,0], color="steelblue")
 axes[1,0].set_title("Median Family Income")
 
-# Education distribution
 sns.histplot(df["per_HSeducation"], kde=True, ax=axes[1,1], color="steelblue")
 axes[1,1].set_title("HS Education Share")
 
 plt.tight_layout()
-
 plt.savefig("outputs/distributions.png", dpi=300)
 plt.show()
 plt.close()
- 
+
+
 # Registration
-# Recode registration variable for plotting
 df["registration_label"] = df["registration"].map({
     0: "None",
     1: "Full",
@@ -162,9 +123,11 @@ reg_means = df.groupby("registration_label")["turnout_pct"].mean().reset_index()
 sns.barplot(
     x="registration_label",
     y="turnout_pct",
+    hue="registration_label",
     data=reg_means,
-    order=["None", "Partial", "Full"],  # optional: control order
-    palette=["steelblue", "darkorange", "seagreen"]
+    order=["None", "Partial", "Full"],
+    palette=["steelblue", "darkorange", "seagreen"],
+    legend=False
 )
 
 plt.title("Average Turnout by Registration Status")
@@ -176,8 +139,8 @@ plt.savefig("outputs/turnout_by_registration_bar.png", dpi=300)
 plt.show()
 plt.close()
 
+
 # Presidential Year
-# Recode presidential year variable for plotting
 df["presyear_label"] = df["presyear"].map({
     0: "Non-Presidential Year",
     1: "Presidential Year"
@@ -190,9 +153,11 @@ pres_means = df.groupby("presyear_label")["turnout_pct"].mean().reset_index()
 sns.barplot(
     x="presyear_label",
     y="turnout_pct",
+    hue="presyear_label",
     data=pres_means,
     order=["Non-Presidential Year", "Presidential Year"],
-    palette=["steelblue", "darkorange"]
+    palette=["steelblue", "darkorange"],
+    legend=False
 )
 
 plt.title("Average Turnout: Presidential vs Non-Presidential Years")
@@ -203,9 +168,9 @@ plt.tight_layout()
 plt.savefig("outputs/turnout_by_presyear_bar.png", dpi=300)
 plt.show()
 plt.close()
-   
+
+
 # Law Change
-# Recode law change variable for plotting
 df["lawchange_label"] = df["lawchange"].map({
     0: "Otherwise",
     1: "First Year After Law Change"
@@ -218,9 +183,11 @@ law_means = df.groupby("lawchange_label")["turnout_pct"].mean().reset_index()
 sns.barplot(
     x="lawchange_label",
     y="turnout_pct",
+    hue="lawchange_label",
     data=law_means,
     order=["Otherwise", "First Year After Law Change"],
-    palette=["steelblue", "darkorange"]
+    palette=["steelblue", "darkorange"],
+    legend=False
 )
 
 plt.title("Average Turnout Around Law Changes")
@@ -231,17 +198,28 @@ plt.tight_layout()
 plt.savefig("outputs/turnout_by_lawchange_bar.png", dpi=300)
 plt.show()
 plt.close()
- 
- 
-# Income vs Education
-plt.figure(figsize=(6,4))
- 
-sns.scatterplot(x="log_inc", y="per_HSeducation", data=df, alpha=0.4, color="steelblue")
 
-plt.title("Income vs Education")
+
+# Income and Turnout
+plt.figure(figsize=(6,4))
+sns.scatterplot(x="log_inc", y="turnout", data=df, alpha=0.4, color="steelblue")
+
+plt.title("Income vs Turnout")
 plt.tight_layout()
 
-plt.savefig("outputs/income_vs_education.png", dpi=300)
+plt.savefig("outputs/income_vs_turnout.png", dpi=300)
+plt.show()
+plt.close()
+
+
+# Education and Turnout
+plt.figure(figsize=(6,4))
+sns.scatterplot(x="per_HSeducation", y="turnout", data=df, alpha=0.4, color="darkorange")
+
+plt.title("Education vs Turnout")
+plt.tight_layout()
+
+plt.savefig("outputs/education_vs_turnout.png", dpi=300)
 plt.show()
 plt.close()
 
@@ -251,7 +229,14 @@ plt.figure(figsize=(6,4))
 
 state_means = df.groupby("state")["turnout_pct"].mean().reset_index()
 
-sns.barplot(x="state", y="turnout_pct", data=state_means, palette=["steelblue", "darkorange"])
+sns.barplot(
+    x="state",
+    y="turnout_pct",
+    hue="state",
+    data=state_means,
+    palette=["steelblue", "darkorange"],
+    legend=False
+)
 
 plt.title("Average Turnout by State")
 plt.ylabel("Mean Turnout (%)")
@@ -261,16 +246,14 @@ plt.savefig("outputs/state_turnout.png", dpi=300)
 plt.show()
 plt.close()
 
-# Convert turnout to percent 
-df["turnout_pct"] = df["turnout"] * 100
 
-# Exclude registration == 5
+# T-test (Law Change Effect)
+
 df_clean = df[df["registration"] != 5].copy()
 
 before = df_clean[df_clean["lawchange"] == 0]["turnout_pct"]
 after  = df_clean[df_clean["lawchange"] == 1]["turnout_pct"]
 
-# Two-sample t-test (Welch's t-test by default unequal variances)
 t_stat, p_value = stats.ttest_ind(after, before, equal_var=False)
 
 print("\nT-test results (Law Change Effect)\n")
